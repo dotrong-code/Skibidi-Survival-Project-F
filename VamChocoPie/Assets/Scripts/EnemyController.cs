@@ -12,10 +12,13 @@ public class EnemyController : MonoBehaviour
 
     public float hitWaitTime = 1f;
     private float hitCounter;
+
+    public float health = 5f;
     // Start is called before the first frame update
     void Start()
     {
-        target = FindObjectOfType<PlayerController>().transform;
+        //target = FindObjectOfType<PlayerController>().transform;
+        target = PlayerHealthController.instance.transform;
     }
 
     // Update is called once per frame
@@ -37,4 +40,13 @@ public class EnemyController : MonoBehaviour
             hitCounter = hitWaitTime;
         }
     }
+    public void TakeDamage(float damageToTake)
+    {
+        health -= damageToTake;
+        if (health <= 0f)
+        {
+            Destroy(gameObject);
+        }
+    }
+
 }
