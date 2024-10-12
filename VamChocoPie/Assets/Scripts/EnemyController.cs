@@ -14,6 +14,9 @@ public class EnemyController : MonoBehaviour
     private float hitCounter;
 
     public float health = 5f;
+
+    public float knowBackTime = .5f;
+    private float knowBackCounter = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +27,20 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (knowBackCounter > 0)
+        {
+            knowBackCounter -= Time.deltaTime;
+            if(moveSpeed > 0)
+            {
+                moveSpeed = -moveSpeed *2f;
+            }
+            if(knowBackCounter <= 0)
+            {
+                moveSpeed = Mathf.Abs(moveSpeed * .5f);
+            }
+        }
+
+
         theRB.velocity = (target.position - transform.position).normalized * moveSpeed;
     
         if (hitCounter > 0f)
@@ -46,6 +63,16 @@ public class EnemyController : MonoBehaviour
         if (health <= 0f)
         {
             Destroy(gameObject);
+        }
+    }
+
+    public void TakeDamage(float damageToTake, bool shouldKnowBack)
+    {
+        TakeDamage(damageToTake);
+
+        if(shouldKnowBack == true)
+        {
+            knowBackCounter = knowBackTime;
         }
     }
 
