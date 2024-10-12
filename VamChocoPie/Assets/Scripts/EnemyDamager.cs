@@ -13,6 +13,8 @@ public class EnemyDamager : MonoBehaviour
 
     public bool shouldKnowBack;
 
+    public bool destroyParent;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +39,10 @@ public class EnemyDamager : MonoBehaviour
             if(transform.localScale.x == 0f)
             {
                 Destroy(gameObject);
+                if(destroyParent)
+                {
+                    Destroy(transform.parent.gameObject);
+                }
             }
         }
     }
